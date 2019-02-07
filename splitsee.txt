@@ -1,0 +1,492 @@
+import java.awt.Font;  
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.util.*;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import java.awt.Color;
+
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.MenuEvent;
+import javax.swing.event.MenuListener;
+import javax.swing.JSeparator;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import java.awt.GridLayout;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+
+public class Main {
+	
+	public static JFrame frame;
+	public static JPanel front;
+	public static JPanel precord;
+	public static JPanel namepanel;
+	public static JPanel panelcal;
+	public static JLabel title;
+	public static JLabel lmoney;
+	public static JLabel lplace;
+	public static JMenuBar menu;
+	public static String grpname;
+	public static String[] squadname; 
+	public static int[] amt;
+	public static String placename ;
+	public static int grpcount;
+	public static int totalamount;
+	public static int[] amountgiven;
+	public static JTextField tname;
+	public static JTextField tmoney;
+	public static JTextField tnum;
+	public static JButton frontbtn;
+	public static JButton resetbtn;
+	public static JButton calculatebtn;
+	public static JButton namebtn;
+	public static JButton moneybtn;
+	public static JLabel[] naam;
+	public static JTextField[] naamfield;
+	public static JTextField[] amountpaidfield;
+	public static JLabel[] calname;
+	public static JTextField[] dbalance;
+	public static JTextField tplace;
+	public static GridBagConstraints gr3;
+	
+	
+	public static void main() {
+		
+		
+		frame = new JFrame("Bill Spitter");
+	    front = new  JPanel();
+	    precord = new JPanel();
+	    front.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
+	    front.setBackground(Color.WHITE);
+		
+		
+		frame.setVisible(true);
+		frame.setSize(700, 400);    
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		JMenuBar menu = new JMenuBar();
+		
+		frame.setJMenuBar(menu);
+		JMenu file = new JMenu("RECORDS");
+		menu.add(file);
+		JMenuItem file1 = new JMenuItem("Show Prev Records");
+		file.add(file1);
+		
+		JMenu help = new JMenu("HELP");
+		menu.add(help);
+		
+		frame.getContentPane().add(front);
+		frontPage();
+		
+		
+		  
+		file1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev1) {
+				recordspage();
+
+				
+			}
+		});
+		
+		 
+		
+		
+	}
+	
+	public static void recordspage() {
+		front.setVisible(false);
+		precord.setVisible(true);
+		frame.add(precord);
+		 
+		precord.setLayout(new GridBagLayout());
+		GridBagConstraints gr5 = new GridBagConstraints();
+		
+		gr5.gridx = 0;
+		gr5.gridy = 0;
+		gr5.weightx = 1;
+		gr5.weighty = 1;
+		
+		JLabel lrecplace = new JLabel("PLACE VISITED");
+		precord.add(lrecplace);
+	
+	/////////////////////////////////////////////////////////////////////////////	
+		
+		gr5.gridx = 5;
+		gr5.gridy = 1;
+		gr5.weightx = 1;
+		gr5.weighty = 1;
+		
+		JLabel lrecamt = new JLabel("THE BILL");
+		precord.add(lrecamt);
+	 
+			
+	}
+	
+	public static void frontPage() {
+	
+		front.setVisible(true);
+	
+		title = new JLabel("LETS SPLIT", SwingConstants.CENTER);
+		title.setVerticalAlignment(SwingConstants.TOP);
+		title.setBackground(Color.WHITE);
+		title.setFont(new Font("Candara", Font.BOLD | Font.ITALIC, 40));
+		//front.add(title);
+		
+
+		front.setLayout(new GridBagLayout());
+		
+		////////////////////////////////////////////////heading///////////////////////////////////////
+		
+		GridBagConstraints gr = new GridBagConstraints();		
+		gr.gridx = 0;
+		gr.gridy = 0;
+		gr.weightx = 2;
+		gr.weighty = 2;
+	
+		
+		front.add(title,gr);
+		
+		/////////////////////////////////////////////////line 1/////////////////////////////////////////
+		
+		gr.gridx = 0;
+		gr.gridy = 1;
+		gr.weightx = 0.001;
+		gr.weighty = 0.001;
+		
+		
+		JLabel lname = new JLabel("YOUR GROUP NAME :");
+		
+		front.add(lname,gr);
+		
+		
+		gr.gridx = 1;
+		gr.gridy = 1;
+	
+		tname = new JTextField(10);
+		front.add(tname,gr);
+		
+		
+		////////////////////////////////////////////////line 2////////////////////////////////////////
+		
+		gr.gridx = 0;
+		gr.gridy = 2;
+		gr.weightx = 2;
+		gr.weighty = 2;
+		
+		JLabel lcnt = new JLabel("YOUR GROUP COUNT :");
+		
+		front.add(lcnt,gr)
+		;
+		
+		gr.gridx = 1;
+		gr.gridy = 2;
+	
+		
+		tnum = new JTextField(10);
+		front.add(tnum,gr);
+		
+		//////////////////////////////////////////////////button///////////////////////////////////////
+		
+		gr.gridx = 1;
+		gr.gridy = 3;
+		gr.weightx = 4;
+		gr.weighty = 4;
+		
+		frontbtn = new JButton("SUBMIT");
+		front.add(frontbtn, gr);
+		
+		frontbtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+					grpname = tname.getText();
+				    grpcount = Integer.parseInt(tnum.getText());
+				    front.setVisible(false);
+				    getname();
+				
+			}
+		});
+		
+	}
+	
+	public static void getname() {
+		
+		
+		namepanel = new JPanel();
+		frame.add(namepanel);
+		 namepanel.setVisible(true);
+		
+		
+		TitledBorder inner = BorderFactory.createTitledBorder("ADD NAMES OF "+grpname );
+		
+		Border outer = BorderFactory.createEmptyBorder(10,10,10,10);
+		
+		namepanel.setBorder(BorderFactory.createCompoundBorder(outer,inner));
+		
+		namepanel.setLayout(new GridBagLayout());
+		GridBagConstraints gr2 = new GridBagConstraints();
+		
+		naam = new JLabel[20];
+		naamfield= new JTextField[20];
+		
+		for(int i=1;i<grpcount+1;i++) {
+			gr2.gridx = 0;
+			gr2.gridy = i;
+			gr2.weightx = 0.001;
+			gr2.weighty = 0.001;
+			
+			naam[i] = new JLabel("NAME "+ i +" :");
+		    namepanel.add(naam[i],gr2);
+			
+			
+			gr2.gridx = 1;
+			gr2.gridy = i;
+			
+			
+			
+			naamfield[i] = new JTextField(10);
+			namepanel.add(naamfield[i],gr2);
+			
+			
+		}
+		
+		gr2.gridx = 1;
+		gr2.gridy = grpcount+1;
+		gr2.weightx = 0.001;
+		gr2.weighty = 0.001;
+		
+		namebtn = new JButton("SUBMIT");
+		namepanel.add(namebtn,gr2);
+		
+		squadname = new String[10];
+		
+		namebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				for(int j=1;j<grpcount+1;j++) {
+					squadname[j] = naamfield[j].getText();
+					System.out.println(squadname[j]);
+					
+				}
+				
+				namepanel.setVisible(false);
+				calculate();
+				
+			}
+		});
+		
+	}
+	
+	public static void calculate() {
+		panelcal = new JPanel();
+		frame.add(panelcal);
+		panelcal.setVisible(true);
+		
+		TitledBorder inner2 = BorderFactory.createTitledBorder(grpname+"'s Share" );
+		
+		Border outer2 = BorderFactory.createEmptyBorder(10,10,10,10);
+		
+		panelcal.setBorder(BorderFactory.createCompoundBorder(outer2,inner2));
+		
+		panelcal.setLayout(new GridBagLayout());
+		gr3 = new GridBagConstraints();
+		
+		//////////////////////////////////////////////////// amount////////////////////
+		gr3.gridx = 0;
+		gr3.gridy = 0;
+		gr3.weightx = 0.001;
+		gr3.weighty = 0.001;
+		
+		lmoney = new JLabel("TOTAL AMOUNT :");
+		panelcal.add(lmoney,gr3);
+		
+		gr3.gridx = 1;
+		gr3.gridy = 0;
+		
+		tmoney = new JTextField(10);
+		panelcal.add(tmoney,gr3);
+		
+		
+		
+		/////////////////////////////////////////////////////hotelname///////////////////
+		
+		gr3.gridx = 0;
+		gr3.gridy = 1;
+		gr3.weightx = 0.001;
+		gr3.weighty = 0.001;
+		
+		lplace = new JLabel("PLACE VISITED :");
+		panelcal.add(lplace,gr3);
+		
+		gr3.gridx = 1;
+		gr3.gridy = 1;
+		
+		tplace = new JTextField(10);
+		panelcal.add(tplace,gr3);
+		
+		gr3.gridx = 2;
+		gr3.gridy = 1;
+		
+		moneybtn = new JButton("DONE");
+		panelcal.add(moneybtn,gr3);
+		
+		/////////////////////////////////////////////////titlebar////////////////////
+		
+		gr3.gridx = 0;
+		gr3.gridy = 2;
+		gr3.weightx = 0.09;
+		gr3.weighty = 0.09;
+		
+		JLabel names = new JLabel("NAMES");
+		panelcal.add(names,gr3);
+		
+		gr3.gridx = 1;
+		gr3.gridy = 2;
+		
+		JLabel amountpaid = new JLabel("AMOUNT PAID");
+		panelcal.add(amountpaid,gr3);
+		
+		gr3.gridx = 2;
+		gr3.gridy = 2;														
+		
+		JLabel balance= new JLabel("NET BALANCE");
+		panelcal.add(balance,gr3);
+		
+		
+		////////////////////////////////////////////////amountpaid//////////////////////
+		
+		for(int i=1;i<grpcount+1;i++) {
+			gr3.gridx = 0;
+			gr3.gridy = i+3;
+			gr3.weightx = 0.08;
+			gr3.weighty = 0.08;
+			
+			calname = new JLabel[10];
+			calname[i]= new JLabel(squadname[i]);
+			
+		    panelcal.add(calname[i],gr3);
+	
+			
+			gr3.gridx = 1;
+			gr3.gridy = i+3;
+			
+			amountpaidfield = new JTextField[10];
+			amountpaidfield[i] = new JTextField(10);
+			panelcal.add(amountpaidfield[i],gr3);
+			
+			gr3.gridx = 2;
+			gr3.gridy = i+3;
+			
+			dbalance = new JTextField[10];
+			dbalance[i] = new JTextField(10);
+ 			panelcal.add(dbalance[i],gr3);
+			    
+			
+	}
+		////////////////////////////////////////////////////last row////////////////////////////////
+		
+		gr3.gridx = 1;
+		gr3.gridy = grpcount+4;
+		gr3.weightx = 0.08;
+		gr3.weighty = 0.08	;
+
+		resetbtn = new JButton("RESET");
+ 		panelcal.add(resetbtn,gr3);
+
+		gr3.gridx = 2;
+		gr3.gridy = grpcount+4;
+
+		calculatebtn = new JButton("CALCULATE");
+		panelcal.add(calculatebtn,gr3);
+		
+		
+		
+		moneybtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e1) {
+				totalamount= Integer.parseInt(tmoney.getText());
+				placename = lplace.getText();
+				
+			}
+		});
+		
+		amt = new int[10];
+		
+		calculatebtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e2) {
+				amountgiven = new int[10];
+				for(int k=1;k<grpcount+1;k++) {
+					
+				
+					
+				amt[k] = Integer.parseInt(amountpaidfield[k].getText());
+				
+				//amountgiven[k] = Integer.parseInt(amt[k]);
+				}
+				//amountgiven[k] = -amountgiven[k]; 		          	
+				//amountgiven[k] = amountgiven[k]+totalamount/grpcount;
+					
+				for(int l=1;l<grpcount+1;l++) {
+				//dbalance[l].setText(numberToWord(l));
+				System.out.print(amt[l]);
+				}
+				
+				
+				/*gr3.gridx = 2;
+				gr3.gridy = k+3;
+				
+				
+				gr3 = new GridBagConstraints();
+				
+				
+				
+				lbalance = new JLabel[10];
+				lbalance[k] = new JLabel("01");
+				panelcal.add(lbalance[k],gr3);*/
+				
+				
+				
+				//}
+				
+			 }
+		});
+
+		
+		
+		
+		moneybtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e1) {
+				totalamount= Integer.parseInt(tmoney.getText());
+				placename = lplace.getText();
+				
+				
+			}
+		});
+
+
+}
+	
+	public static void main(String arg[]) {
+		
+		
+SwingUtilities.invokeLater(new Runnable() {
+			
+			public void run() {
+			
+			main();
+			}
+			
+		});
+	}
+}
